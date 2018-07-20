@@ -194,16 +194,30 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'casual') {
-		client.setActivity({
-			state: getLocalPlayerStats(data),
-			details: getTeamScoreDetails(data),
-			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
-			largeImageText: data.map.name,
-			smallImageKey: '10v10',
-			smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
-		}).catch(() => {});
-		return;
+		if ([ 'ar_shoots', 'ar_dizzy', 'de_lake', 'de_safehouse' ].includes(data.map.name)) {
+			// Casual & One of these maps typically means the gaemode is Flying Scoutsman
+			client.setActivity({
+				state: getLocalPlayerStats(data),
+				details: getTeamScoreDetails(data),
+				startTimestamp: parseInt(firstStart),
+				largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+				largeImageText: data.map.name,
+				smallImageKey: '6v6',
+				smallImageText: 'Mode: Flying Scoutsman'
+			}).catch(() => {});
+			return;
+		} else {
+			client.setActivity({
+				state: getLocalPlayerStats(data),
+				details: getTeamScoreDetails(data),
+				startTimestamp: parseInt(firstStart),
+				largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+				largeImageText: data.map.name,
+				smallImageKey: '10v10',
+				smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
+			}).catch(() => {});
+			return;
+		}
 	}
 
 	if (data.map.mode === 'scrimcomp5v5') {
@@ -222,11 +236,11 @@ function updatePresence(data) {
 	if (data.map.mode === 'gungameprogressive') {
 		client.setActivity({
 			state: getLocalPlayerStats(data),
-			details: getTeamScoreDetails(data),
+			details: getDeathmatchDetails(data),
 			startTimestamp: parseInt(firstStart),
 			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
 			largeImageText: data.map.name,
-			smallImageKey: '5v5',
+			smallImageKey: '6v6',
 			smallImageText: 'Mode: Arms Race'
 		}).catch(() => {});
 		return;
@@ -239,7 +253,7 @@ function updatePresence(data) {
 			startTimestamp: parseInt(firstStart),
 			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
 			largeImageText: data.map.name,
-			smallImageKey: '5v5',
+			smallImageKey: '6v6',
 			smallImageText: 'Demolition'
 		}).catch(() => {});
 		return;
@@ -248,7 +262,7 @@ function updatePresence(data) {
 	if (data.map.mode === 'deathmatch') {
 		client.setActivity({
 			state: getLocalPlayerStats(data),
-			details: getTeamScoreDetails(data),
+			details: getDeathmatchDetails(data),
 			startTimestamp: parseInt(firstStart),
 			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
 			largeImageText: data.map.name,
@@ -335,13 +349,23 @@ function updatePresence(data) {
 	}).catch(() => {});
 }
 
-function getTeamScoreDetails(data) {
+function getDeathmatchDetails(data) {
 	if (!data || !data.player || !data.player.team) return 'Unknown';
+
+	if (!data.player.match_stats || isNaN(data.player.match_stats.kills) || isNaN(data.player.match_stats.assists) || isNaN(data.player.match_stats.deaths)) return data.player.team;
+	return data.player.team + ' ' + data.player.match_stats.kills + '/' + data.player.match_stats.assists + '/' + data.player.match_stats.deaths;
+}
+
+function getTeamScoreDetails(data) {
+	if (data && data.player && !data.player.team) data.player.team = 'Spectator';
+	if (!data || !data.player || !data.player.team || !data.provider) return 'Unknown';
+	if (data.player.steamid !== data.provider.steamid) data.player.team = 'Spectator';
 
 	var ourTeam = data.player.team;
 	var enemyTeam = undefined;
 	if (ourTeam === 'T') enemyTeam = 'CT';
 	else if (ourTeam === 'CT') enemyTeam = 'T';
+	else if (ourTeam === 'Spectator') return ourTeam + ' - ' + data.map.team_ct.score + ':' + data.map.team_t.score + ' ' + data.player.match_stats.kills + '/' + data.player.match_stats.assists + '/' + data.player.match_stats.deaths;
 	else return 'Unknown';
 
 	if (!data.player.match_stats || isNaN(data.player.match_stats.kills) || isNaN(data.player.match_stats.assists) || isNaN(data.player.match_stats.deaths)) return ourTeam + ' - ' + data.map['team_' + ourTeam.toLowerCase()].score + ':' + data.map['team_' + enemyTeam.toLowerCase()].score;
@@ -349,7 +373,11 @@ function getTeamScoreDetails(data) {
 }
 
 function getLocalPlayerStats(data) {
-	if (!data || !data.player || !data.player.state || !data.player.state.health || !data.player.state.money) return 'Unknown';
+	if (data && data.player && !data.player.team) data.player.team = 'Spectator';
+	if (data.player.team === 'Spectator') return 'Round ' + data.map.round;
 
-	return data.player.state.health + 'HP $' + data.player.state.money;
+	if (!data || !data.player || !data.player.state || !data.player.state.health) return 'Unknown';
+
+	if (!isNaN(data.player.state.money)) return data.player.state.health + 'HP $' + data.player.state.money;
+	else return data.player.state.health + 'HP';
 }
