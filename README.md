@@ -28,7 +28,7 @@ Display CSGO information as rich embed in discord.
 3. Replace the client ID from the `config.json` with the one you have in `General Information` on the website
 
 **Notes:**
-- By default maps are called exactly what they are called ingame. `cs_office` ingame is `cs_office` in the assets list
+- Maps are called exactly what they are called ingame. `cs_office` ingame is `cs_office` in the assets list. Workshop maps are `workshop/<ID>/<mapname>` (Just like how they are ingame) in the assets list. Example: `workshop/243702660/aim_botz`
 - The `default` asset is used when the client is in the main menu and when we are in a unknown gamemode
 - The `workshop` asset is used on maps which dont have a image by default in our application
 - `1vbots`, `2vbots`, `2v2`, `5v5`, `6v6`, `10v10` & `unknown` are used for the different gamemodes to display the amount of players
