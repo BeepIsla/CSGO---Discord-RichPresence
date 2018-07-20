@@ -171,6 +171,13 @@ function updatePresence(RPC, data) {
 			}).catch(() => {});
 			return;
 		}
+		RPC.setActivity({
+			state: 'Awaiting game response...',
+			largeImageKey: 'default',
+			startTimestamp: parseInt(new Date().getTime() / 1000),
+			endTimestamp: parseInt(new Date().getTime() / 1000) + 30
+		}).catch(() => {});
+		return;
 	}
 
 	if (!data) {
