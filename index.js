@@ -120,6 +120,12 @@ client.on('ready', () => {
 });
 
 function updatePresence(data) {
+	if (!client) {
+		updateAllowed = false;
+		queuedChanges = undefined;
+		return;
+	}
+
 	if (!updateAllowed) {
 		queuedChanges = data;
 		return;
@@ -140,7 +146,7 @@ function updatePresence(data) {
 		client.setActivity({
 			state: 'Awaiting game response...',
 			largeImageKey: 'default'
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -148,7 +154,7 @@ function updatePresence(data) {
 		client.setActivity({
 			state: 'Unknown',
 			largeImageKey: 'default'
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -157,7 +163,7 @@ function updatePresence(data) {
 			details: 'Main Menu',
 			startTimestamp: parseInt(firstStart),
 			largeImageKey: 'default'
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -170,7 +176,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: '5v5',
 			smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -183,7 +189,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: '2v2',
 			smallImageText: 'Mode: Wingman'
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -196,7 +202,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: '10v10',
 			smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -209,7 +215,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: '5v5',
 			smallImageText: 'Mode: Weapons Expert'
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -222,7 +228,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: '5v5',
 			smallImageText: 'Mode: Arms Race'
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -235,7 +241,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: '5v5',
 			smallImageText: 'Demolition'
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -248,7 +254,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: '10v10',
 			smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -261,7 +267,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: '1vbots',
 			smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -274,7 +280,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: 'unknown',
 			smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -287,7 +293,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: '2vbots',
 			smallImageText: 'Mode: Guardian'
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -300,7 +306,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: '2vbots',
 			smallImageText: 'Mode: Co-Op Strike'
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -313,7 +319,7 @@ function updatePresence(data) {
 			largeImageText: data.map.name,
 			smallImageKey: '6v6',
 			smallImageText: 'Mode: War Games'
-		});
+		}).catch(() => {});
 		return;
 	}
 
@@ -326,7 +332,7 @@ function updatePresence(data) {
 		largeImageText: data.map.name,
 		smallImageKey: 'unknown',
 		smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
-	});
+	}).catch(() => {});
 }
 
 function getTeamScoreDetails(data) {
