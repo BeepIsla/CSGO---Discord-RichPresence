@@ -2,18 +2,35 @@
 
 Display CSGO information as rich embed in discord.
 
-# Requirements:
-- At least a bit of JavaScript/Node expierence
-
 # How to use:
 1. Install [NodeJS](https://nodejs.org/en/)
-2. Install the following modules:
-    - `discord-rpc`
-    - `http`
-3. Create an application [on Discord](https://discordapp.com/developers/applications/me) and enable "Rich Presence"
-4. Upload assets to display images (**IMPORTANT:** Give them the same name they have as you download them. Eg: Give the picture "map_overpass.png" the name "map_overpass" in discord) - Upload them all as **large** except for "spec", "t", "ct" and "csgo" - *In the end it should look similar to [this](https://i.imgur.com/ferUi9p.png)* - You can add more map images by simply uploading the image and calling it "map_<mapname>" Eg: "cs_assault" > "map_assault"
-5. Edit `config.json`
-6. Put `gamestate_integration_discord.cfg` into your CFG folder in `<Steam>\steamapps\common\Counter-Strike Global Offensive\csgo\cfg`
-7. Start node process by opening a CMD in the folder and typing `node index.js`
+2. Clone this repository into a folder
+3. Open a command prompt inside the folder and enter `npm install`
+4. Move `gamestate_integration_discord.cfg` into your `<Steam>\steamapps\common\Counter-Strike Global Offensive\csgo\cfg` folder and restart csgo, if opened
+5. Go back to the command prompt we opened earlier and enter `node index` to start the process
 
-Note: Whenever you want the RichEmbed to appear, you have to start the node process **and leave it running**, if you close it the RichEmbed will stop displaying.
+**Start the process and leave it running!** When you close it the rich presence will disappear.
+
+# Some notes for running it:
+- Windows Only:
+- - When first starting the process it will display it in your rich presence for ~1 second
+- - It will automatically start the rich presence again when you start CSGO
+- - It will automatically close the rich presence again when you close CSGO
+- - **This ONLY works on windows**
+- Other platforms:
+- - When first starting the process it will display it in your rich presence the whole time until you close the process again
+- - When closing CSGO it will keep displaying the latest rich presence until you manually close the process
+- - **I will maybe eventually update this to work on other platforms too**
+
+# How to use your own Discord application with custom images
+1. Create an application [on Discord](https://discordapp.com/developers/applications/me)
+2. Go to `Rich Presence` > `Art Assets` and upload all images you want.
+3. Replace the client ID from the `config.json` with the one you have in `General Information` on the website
+
+**Notes:**
+- By default maps are called exactly what they are called ingame. `cs_office` ingame is `cs_office` in the assets list
+- The `default` asset is used when the client is in the main menu and when we are in a unknown gamemode
+- The `workshop` asset is used on maps which dont have a image by default in our application
+- `1vbots`, `2vbots`, `2v2`, `5v5`, `6v6`, `10v10` & `unknown` are used for the different gamemodes to display the amount of players
+
+It should look similar to [this](https://i.imgur.com/6qloVho.png)
