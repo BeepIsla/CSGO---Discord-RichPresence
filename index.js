@@ -16,6 +16,7 @@ var latestData = undefined;
 var queuedChanges = undefined;
 var firstStart = undefined;
 var updates = 0;
+var isClientCreated = true;
 
 setInterval(() => {
 	if (process.platform === 'win32') {
@@ -30,16 +31,26 @@ setInterval(() => {
 				}
 			});
 
-			if (!foundCSGO && client) {
+			if (!foundCSGO && isClientCreated) {
 				client.destroy();
-				client = undefined;
-			} else if (foundCSGO && !client) {
+				isClientCreated = false;
+			} else if (foundCSGO && !isClientCreated) {
 				client = new DiscordRPC.Client({ transport: 'ipc' });
 				client.login({ clientId: config.clientId }).catch(console.error);
+
+				availableMapIcons = [];
+				updateAllowed = false;
+				latestData = undefined;
+				queuedChanges = undefined;
+				firstStart = undefined;
+				updates = 0;
+				isClientCreated = true;
+
+				getReady(client);
 			}
 		});
 	}
-}, 1 * 1000); // Low interval to check if csgo.exe is now running
+}, 1 * 1000); // Check if csgo.exe is running or not
 
 server = http.createServer((req, res) => {
 	if (req.method === 'POST') {
@@ -84,9 +95,8 @@ server = http.createServer((req, res) => {
 			if (latestData && JSON.stringify(latestData) === JSON.stringify(usedData) && updates !== 0) return res.end('');
 			latestData = usedData;
 			updates = updates + 1;
-			gotReponse = true;
 
-			updatePresence(json);
+			updatePresence(client, json);
 			res.end('');
 		});
 	} else {
@@ -96,31 +106,37 @@ server = http.createServer((req, res) => {
 });
 server.listen(port, host);
 
-client.on('ready', () => {
-	request('https://discordapp.com/api/oauth2/applications/' + config.clientId + '/assets', (err, res, body) => {
-		if (err) return console.error(err);
+function getReady(RPC) {
+	RPC.on('ready', () => {
+		request('https://discordapp.com/api/oauth2/applications/' + config.clientId + '/assets', (err, res, body) => {
+			if (err) return console.error(err);
 
-		var json = undefined;
-		try {
-			json = JSON.parse(body);
-		} catch(err) {};
+			var json = undefined;
+			try {
+				json = JSON.parse(body);
+			} catch(err) {};
 
-		if (!json || !json[0] || !json[0].name) return;
-
-		availableMapIcons = [];
-		for (let i = 0; i < json.length; i++) {
-			if (/^(de_|cs_|ar_|training1)/.test(json[i].name)) {
-				availableMapIcons.push(json[i].name);
+			if (!json || !json[0] || !json[0].name) return;
+	
+			availableMapIcons = [];
+			for (let i = 0; i < json.length; i++) {
+				if (/^(de_|cs_|ar_|training1)/.test(json[i].name)) {
+					availableMapIcons.push(json[i].name);
+				}
 			}
-		}
 
-		updateAllowed = true;
-		updatePresence('settingup');
+			updateAllowed = true;
+			updatePresence(RPC, 'settingup');
+		});
 	});
-});
+}
+getReady(client);
 
-function updatePresence(data) {
-	if (!client) {
+function updatePresence(RPC, data) {
+	console.log(RPC);
+	console.log(data);
+
+	if (!RPC) {
 		updateAllowed = false;
 		queuedChanges = undefined;
 		return;
@@ -135,7 +151,7 @@ function updatePresence(data) {
 	setTimeout(() => {
 		updateAllowed = true;
 
-		if (queuedChanges) updatePresence(queuedChanges);
+		if (queuedChanges) updatePresence(RPC, queuedChanges);
 	}, 15000);
 
 	queuedChanges = undefined;
@@ -143,15 +159,17 @@ function updatePresence(data) {
 	if (data && data.provider && data.provider.timestamp && !firstStart) firstStart = data.provider.timestamp;
 
 	if (typeof data === 'string') {
-		client.setActivity({
+		RPC.setActivity({
 			state: 'Awaiting game response...',
-			largeImageKey: 'default'
+			largeImageKey: 'default',
+			startTimestamp: parseInt(new Date().getTime() / 1000),
+			endTimestamp: parseInt(new Date().getTime() / 1000) + 30
 		}).catch(() => {});
 		return;
 	}
 
 	if (!data) {
-		client.setActivity({
+		RPC.setActivity({
 			state: 'Unknown',
 			largeImageKey: 'default'
 		}).catch(() => {});
@@ -159,7 +177,7 @@ function updatePresence(data) {
 	}
 
 	if (data.player.activity === 'menu') {
-		client.setActivity({
+		RPC.setActivity({
 			details: 'Main Menu',
 			startTimestamp: parseInt(firstStart),
 			largeImageKey: 'default'
@@ -168,7 +186,7 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'competitive') {
-		client.setActivity({
+		RPC.setActivity({
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
@@ -181,7 +199,7 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'scrimcomp2v2') {
-		client.setActivity({
+		RPC.setActivity({
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
@@ -196,7 +214,7 @@ function updatePresence(data) {
 	if (data.map.mode === 'casual') {
 		if ([ 'ar_shoots', 'ar_dizzy', 'de_lake', 'de_safehouse' ].includes(data.map.name)) {
 			// Casual & One of these maps typically means the gaemode is Flying Scoutsman
-			client.setActivity({
+			RPC.setActivity({
 				state: getLocalPlayerStats(data),
 				details: getTeamScoreDetails(data),
 				startTimestamp: parseInt(firstStart),
@@ -207,7 +225,7 @@ function updatePresence(data) {
 			}).catch(() => {});
 			return;
 		} else {
-			client.setActivity({
+			RPC.setActivity({
 				state: getLocalPlayerStats(data),
 				details: getTeamScoreDetails(data),
 				startTimestamp: parseInt(firstStart),
@@ -221,7 +239,7 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'scrimcomp5v5') {
-		client.setActivity({
+		RPC.setActivity({
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
@@ -234,7 +252,7 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'gungameprogressive') {
-		client.setActivity({
+		RPC.setActivity({
 			state: getLocalPlayerStats(data),
 			details: getDeathmatchDetails(data),
 			startTimestamp: parseInt(firstStart),
@@ -247,7 +265,7 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'gungametrbomb') {
-		client.setActivity({
+		RPC.setActivity({
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
@@ -260,7 +278,7 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'deathmatch') {
-		client.setActivity({
+		RPC.setActivity({
 			state: getLocalPlayerStats(data),
 			details: getDeathmatchDetails(data),
 			startTimestamp: parseInt(firstStart),
@@ -273,7 +291,7 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'training') {
-		client.setActivity({
+		RPC.setActivity({
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
@@ -286,7 +304,7 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'custom') {
-		client.setActivity({
+		RPC.setActivity({
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
@@ -299,7 +317,7 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'cooperative') {
-		client.setActivity({
+		RPC.setActivity({
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
@@ -312,7 +330,7 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'coopmission') {
-		client.setActivity({
+		RPC.setActivity({
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
@@ -325,7 +343,7 @@ function updatePresence(data) {
 	}
 
 	if (data.map.mode === 'skirmish') {
-		client.setActivity({
+		RPC.setActivity({
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
@@ -338,7 +356,7 @@ function updatePresence(data) {
 	}
 
 	// Unknown Gamemode
-	client.setActivity({
+	RPC.setActivity({
 		state: getLocalPlayerStats(data),
 		details: getTeamScoreDetails(data),
 		startTimestamp: parseInt(firstStart),
