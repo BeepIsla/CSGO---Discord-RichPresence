@@ -22,6 +22,8 @@ Display CSGO information as rich embed in discord.
 - - When closing CSGO it will keep displaying the latest rich presence until you manually close the process
 - - **I will maybe eventually update this to work on other platforms too**
 
+Note: When using Windows you can use something like [pm2](http://pm2.keymetrics.io/docs/usage/quick-start/) with a [startup script](http://pm2.keymetrics.io/docs/usage/startup/) to automatically start the Node process in the background when starting your Computer.
+
 # How to use your own Discord application with custom images
 1. Create an application [on Discord](https://discordapp.com/developers/applications/me)
 2. Go to `Rich Presence` > `Art Assets` and upload all images you want.
