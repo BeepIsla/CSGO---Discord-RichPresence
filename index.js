@@ -120,7 +120,7 @@ function getReady(RPC) {
 	
 			availableMapIcons = [];
 			for (let i = 0; i < json.length; i++) {
-				if (/^(de_|cs_|ar_|training1)/.test(json[i].name)) {
+				if (/^(de_|cs_|ar_|gd_|training1)/.test(json[i].name)) {
 					availableMapIcons.push(json[i].name);
 				}
 			}
@@ -159,7 +159,7 @@ function updatePresence(RPC, data) {
 		if (process.platform === 'win32') {
 			RPC.setActivity({
 				state: 'Awaiting game response...',
-				largeImageKey: 'default',
+				largeImageKey: 'menu',
 				startTimestamp: parseInt(new Date().getTime() / 1000),
 				endTimestamp: parseInt(new Date().getTime() / 1000) + 30
 			}).catch(() => {});
@@ -167,7 +167,7 @@ function updatePresence(RPC, data) {
 		} else {
 			RPC.setActivity({
 				state: 'Awaiting game response...',
-				largeImageKey: 'default'
+				largeImageKey: 'menu'
 			}).catch(() => {});
 			return;
 		}
@@ -176,7 +176,7 @@ function updatePresence(RPC, data) {
 	if (!data) {
 		RPC.setActivity({
 			state: 'Unknown',
-			largeImageKey: 'default'
+			largeImageKey: 'menu'
 		}).catch(() => {});
 		return;
 	}
@@ -185,7 +185,7 @@ function updatePresence(RPC, data) {
 		RPC.setActivity({
 			details: 'Main Menu',
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: 'default'
+			largeImageKey: 'menu'
 		}).catch(() => {});
 		return;
 	}
@@ -195,7 +195,7 @@ function updatePresence(RPC, data) {
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
 			smallImageKey: '5v5',
 			smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
@@ -208,7 +208,7 @@ function updatePresence(RPC, data) {
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
 			smallImageKey: '2v2',
 			smallImageText: 'Mode: Wingman'
@@ -223,7 +223,7 @@ function updatePresence(RPC, data) {
 				state: getLocalPlayerStats(data),
 				details: getTeamScoreDetails(data),
 				startTimestamp: parseInt(firstStart),
-				largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+				largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 				largeImageText: data.map.name,
 				smallImageKey: '6v6',
 				smallImageText: 'Mode: Flying Scoutsman'
@@ -234,7 +234,7 @@ function updatePresence(RPC, data) {
 				state: getLocalPlayerStats(data),
 				details: getTeamScoreDetails(data),
 				startTimestamp: parseInt(firstStart),
-				largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+				largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 				largeImageText: data.map.name,
 				smallImageKey: '10v10',
 				smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
@@ -248,7 +248,7 @@ function updatePresence(RPC, data) {
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
 			smallImageKey: '5v5',
 			smallImageText: 'Mode: Weapons Expert'
@@ -261,7 +261,7 @@ function updatePresence(RPC, data) {
 			state: getLocalPlayerStats(data),
 			details: getDeathmatchDetails(data),
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
 			smallImageKey: '6v6',
 			smallImageText: 'Mode: Arms Race'
@@ -274,7 +274,7 @@ function updatePresence(RPC, data) {
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
 			smallImageKey: '6v6',
 			smallImageText: 'Demolition'
@@ -287,7 +287,7 @@ function updatePresence(RPC, data) {
 			state: getLocalPlayerStats(data),
 			details: getDeathmatchDetails(data),
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
 			smallImageKey: '10v10',
 			smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
@@ -300,7 +300,7 @@ function updatePresence(RPC, data) {
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
 			smallImageKey: '1vbots',
 			smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
@@ -313,7 +313,7 @@ function updatePresence(RPC, data) {
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
 			smallImageKey: 'unknown',
 			smallImageText: 'Mode: ' + data.map.mode.charAt(0).toUpperCase() + data.map.mode.substr(1)
@@ -326,7 +326,7 @@ function updatePresence(RPC, data) {
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
 			smallImageKey: '2vbots',
 			smallImageText: 'Mode: Guardian'
@@ -339,7 +339,7 @@ function updatePresence(RPC, data) {
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
 			smallImageKey: '2vbots',
 			smallImageText: 'Mode: Co-Op Strike'
@@ -352,7 +352,7 @@ function updatePresence(RPC, data) {
 			state: getLocalPlayerStats(data),
 			details: getTeamScoreDetails(data),
 			startTimestamp: parseInt(firstStart),
-			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'workshop'),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
 			smallImageKey: '6v6',
 			smallImageText: 'Mode: War Games'
