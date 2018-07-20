@@ -2,6 +2,8 @@
 
 Display CSGO information as rich embed in discord.
 
+[Preview album](https://imgur.com/a/wWXjBlB)
+
 # How to use:
 1. Install [NodeJS](https://nodejs.org/en/)
 2. Clone this repository into a folder
