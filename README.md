@@ -36,5 +36,6 @@ Note: When using Windows you can use something like [pm2](http://pm2.keymetrics.
 - The `default` asset is used when the client is in the main menu and when we are in a unknown gamemode
 - The `workshop` asset is used on maps which dont have a image by default in our application
 - `1vbots`, `2vbots`, `2v2`, `5v5`, `6v6`, `10v10` & `unknown` are used for the different gamemodes to display the amount of players
+- The `assets` folder are the images I use in my application. They are directly taken from the game files of the maps which are currently available in the `<Steam>\steamapps\common\Counter-Strike Global Offensive\csgo\maps` folder
 
 It should look similar to [this](https://i.imgur.com/6qloVho.png)
