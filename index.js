@@ -218,7 +218,7 @@ function updatePresence(RPC, data) {
 
 	if (data.map.mode === 'casual') {
 		if ([ 'ar_shoots', 'ar_dizzy', 'de_lake', 'de_safehouse' ].includes(data.map.name)) {
-			// Casual & One of these maps typically means the gaemode is Flying Scoutsman
+			// Casual & One of these maps typically means the gamemode is Flying Scoutsman
 			RPC.setActivity({
 				state: getLocalPlayerStats(data),
 				details: getTeamScoreDetails(data),
