@@ -40,7 +40,7 @@ Display CSGO information as rich presence in discord.
 5. Put the BAT file you just created into the `Autostart` folder
 6. Everytime your OS starts up you will see a command prompt open for a short period of time, that is pm2 launching the Rich Presence. It will now run in the background and automatically display when needed.
 
-[In the end it should something like this](https://i.imgur.com/T7wlSIn.png)
+[In the end it should look something like this](https://i.imgur.com/T7wlSIn.png)
 
 # Some notes for running it
 - Windows Only:
