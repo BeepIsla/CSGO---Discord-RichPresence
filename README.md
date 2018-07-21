@@ -7,7 +7,7 @@ Display CSGO information as rich presence in discord.
 [Small preview album](https://imgur.com/a/wWXjBlB)
 
 # Features
-- [Automatically detects if the csgo.exe process is running or not in order to activate/deactivate the Rich Presence (Windows Only at the moment)](#pm2-/-autostart)
+- [Automatically detects if the csgo.exe process is running or not in order to activate/deactivate the Rich Presence (Windows Only at the moment)](#pm2--autostart)
 - 100% VAC Secure. Uses the [CSGO Game State Integration](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration) and a local http server on port 21812 (CSGO's release date 21st August 2012) to recieve game data
 - All official maps currently available supported
 - All official gamemodes currently available supported
