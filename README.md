@@ -14,6 +14,7 @@ Display CSGO information as rich presence in discord.
 - Display length of your play session
 - K/A/D, Money, Team and Team-Score display
 - No need to setup an application, you can just use the one I created
+- If you use your own application it will automatically fetch all available assets from the Discord API. Making it super easy to use your own application
 - I use this myself so I will keep working on it to make it exactly how I want it
 - For suggestions add me on Discord **Felix#2343**, I am most active there
 
@@ -47,11 +48,10 @@ Display CSGO information as rich presence in discord.
 - - When first starting the process it will display it in your rich presence for ~1 second
 - - It will automatically start the rich presence again when you start CSGO
 - - It will automatically close the rich presence again when you close CSGO
-- - **This ONLY works on windows**
 - Other platforms:
 - - When first starting the process it will display it in your rich presence the whole time until you close the process again
-- - When closing CSGO it will keep displaying the latest rich presence until you manually close the process
-- - **I will maybe eventually update this to work on other platforms too**
+- - When closing CSGO it will keep displaying the latest rich presence-status until you manually close the process
+- - Linux will soon get support for autostart/csgo.exe process detection too. Mac will most probably take a while longer or never happen
 
 # How to use your own Discord application with custom images
 1. Create an application [on Discord](https://discordapp.com/developers/applications/me)
