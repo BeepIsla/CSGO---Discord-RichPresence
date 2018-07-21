@@ -65,4 +65,4 @@ Display CSGO information as rich presence in discord.
 - `1vbots`, `2vbots`, `2v2`, `5v5`, `6v6`, `10v10` & `unknown` are used for the different gamemodes to display the amount of players
 - The `assets` folder are the images I use in my application. They are directly taken from the game files of the maps which are currently available in the `<Steam>\steamapps\common\Counter-Strike Global Offensive\csgo\maps` folder
 
-It should look similar to [this](https://i.imgur.com/6qloVho.png)
+It should look similar to [this](https://i.imgur.com/cF6HPs7.png)
