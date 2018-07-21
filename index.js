@@ -20,7 +20,7 @@ var isClientCreated = true;
 
 setInterval(() => {
 	if (process.platform === 'win32') {
-		child_process.exec('tasklist', (error, stdout, stderr) => {
+		child_process.exec('tasklist', { windowsHide: true }, (error, stdout, stderr) => {
 			if (error) return console.error(error);
 
 			var tasks = stdout.split('\n');
