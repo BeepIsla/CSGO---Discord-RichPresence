@@ -25,7 +25,7 @@ Display CSGO information as rich presence in discord.
 2. Clone this repository into a folder
 3. Open a command prompt inside the folder and enter `npm install`
 4. Move `gamestate_integration_discord.cfg` into your `<Steam>\steamapps\common\Counter-Strike Global Offensive\csgo\cfg` folder and restart csgo, if opened
-5. Go back to the command prompt we opened earlier and enter `node index` to start the process
+5. Go back to the command prompt we opened earlier and enter `node index` to start the process (**This step is obsolete if you use the [Autostart feature](#pm2--autostart)**)
 
 **Start the process and leave it running!** When you close it the rich presence will disappear.
 
