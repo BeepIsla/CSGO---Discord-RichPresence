@@ -399,7 +399,7 @@ function getLocalPlayerStats(data) {
 	if (data && data.player && !data.player.team) data.player.team = 'Spectator';
 	if (data.player.team === 'Spectator') return 'Round ' + data.map.round;
 
-	if (!data || !data.player || !data.player.state || !data.player.state.health) return 'Unknown';
+	if (!data || !data.player || !data.player.state || isNaN(data.player.state.health)) return 'Unknown';
 
 	if (!isNaN(data.player.state.money)) return data.player.state.health + 'HP $' + data.player.state.money;
 	else return data.player.state.health + 'HP';
