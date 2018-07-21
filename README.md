@@ -1,10 +1,26 @@
-# CSGO - Discord Rich Embed
+# CSGO - Discord Rich Presence
 
-Display CSGO information as rich embed in discord.
+Display CSGO information as rich presence in discord.
 
-[Preview album](https://imgur.com/a/wWXjBlB)
+[Small showcase video](https://youtu.be/yvrA6LpmZkE) (Sorry for the low FPS - Had to run OBS twice to record the game & rich presence)
 
-# How to use:
+[Small preview album](https://imgur.com/a/wWXjBlB)
+
+# Features
+- [Automatically detects if the csgo.exe process is running or not in order to activate/deactivate the Rich Presence (Windows Only at the moment)](#pm2-/-autostart)
+- 100% VAC Secure. Uses the [CSGO Game State Integration](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration) and a local http server on port 21812 (CSGO's release date 21st August 2012) to recieve game data
+- All official maps currently available supported
+- All official gamemodes currently available supported
+- Display length of your play session
+- K/A/D, Money, Team and Team-Score display
+- No need to setup an application, you can just use the one I created
+- I use this myself so I will keep working on it to make it exactly how I want it
+- For suggestions add me on Discord **Felix#2343**, I am most active there
+
+# TODO
+- Add Linux (maybe Mac) support for automatically detecting the csgo.exe process
+
+# Installation / How to use
 1. Install [NodeJS](https://nodejs.org/en/)
 2. Clone this repository into a folder
 3. Open a command prompt inside the folder and enter `npm install`
@@ -13,7 +29,15 @@ Display CSGO information as rich embed in discord.
 
 **Start the process and leave it running!** When you close it the rich presence will disappear.
 
-# Some notes for running it:
+# PM2 / Autostart
+1. Install pm2 with `npm install pm2@latest -g`
+2. Create a **BAT** file with the following content: `pm2 start <Direct Path To Index.js> --name "CSGO-RichPresence"`. Example: `pm2 start D:/JavaScript/other/csgo-richpresence/index.js`
+3. Press `CTRL + R` to open the run prompt
+4. Enter `shell:startup`. It should open a folder called `Autostart`
+5. Put the BAT file you just created into the `Autostart` folder
+6. Everytime your OS starts up you will see a command prompt open for a short period of time, that is pm2 launching the Rich Presence. It will now run in the background and automatically display when needed.
+
+# Some notes for running it
 - Windows Only:
 - - When first starting the process it will display it in your rich presence for ~1 second
 - - It will automatically start the rich presence again when you start CSGO
@@ -23,8 +47,6 @@ Display CSGO information as rich embed in discord.
 - - When first starting the process it will display it in your rich presence the whole time until you close the process again
 - - When closing CSGO it will keep displaying the latest rich presence until you manually close the process
 - - **I will maybe eventually update this to work on other platforms too**
-
-Note: When using Windows you can use something like [pm2](http://pm2.keymetrics.io/docs/usage/quick-start/) with a [startup script](http://pm2.keymetrics.io/docs/usage/startup/) to automatically start the Node process in the background when starting your Computer.
 
 # How to use your own Discord application with custom images
 1. Create an application [on Discord](https://discordapp.com/developers/applications/me)
