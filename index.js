@@ -49,8 +49,38 @@ setInterval(() => {
 				getReady(client);
 			}
 		});
+	} else if (process.platform === 'linux') {
+		child_process.exec('ps -A | grep csgo', (error, stdout, stderr) => {
+			if (error) return console.error(error);
+
+			var tasks = stdout.split('\n');
+			var foundCSGO = false;
+			tasks.forEach((task) => {
+				if (/csgo_linux(32|64)$/.test(task)) {
+					foundCSGO = true;
+				}
+			});
+
+			if (!foundCSGO && isClientCreated) {
+				client.destroy();
+				isClientCreated = false;
+			} else if (foundCSGO && !isClientCreated) {
+				client = new DiscordRPC.Client({ transport: 'ipc' });
+				client.login({ clientId: config.clientId }).catch(console.error);
+
+				availableMapIcons = [];
+				updateAllowed = false;
+				latestData = undefined;
+				queuedChanges = undefined;
+				firstStart = undefined;
+				updates = 0;
+				isClientCreated = true;
+
+				getReady(client);
+			}
+		});
 	}
-}, 1 * 1000); // Check if csgo.exe is running or not
+}, 1 * 1000); // Check if csgo.exe / csgo_linux(32/64) is running or not
 
 server = http.createServer((req, res) => {
 	if (req.method === 'POST') {
