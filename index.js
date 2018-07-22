@@ -53,13 +53,15 @@ setInterval(() => {
 		child_process.exec('ps -A | grep csgo', (error, stdout, stderr) => {
 			if (error) return console.error(error);
 
-			var tasks = stdout.split('\n');
 			var foundCSGO = false;
-			tasks.forEach((task) => {
-				if (/csgo_linux(32|64)$/.test(task)) {
-					foundCSGO = true;
-				}
-			});
+			if (stdout && stdout.length > 4) {
+				var tasks = stdout.split('\n');
+				tasks.forEach((task) => {
+					if (/csgo_linux(32|64)$/.test(task)) {
+						foundCSGO = true;
+					}
+				});
+			}
 
 			if (!foundCSGO && isClientCreated) {
 				client.destroy();
