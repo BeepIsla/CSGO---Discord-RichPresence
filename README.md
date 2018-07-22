@@ -19,9 +19,13 @@ Display CSGO information as rich presence in discord.
 - For suggestions add me on Discord **Felix#2343**, I am most active there
 
 # TODO
-- Add Linux (maybe Mac) support for automatically detecting the csgo.exe process
+- Test if it works on Linux
+- Most probably never add Mac support
 
 # Installation / How to use
+
+**Windows Instructions:**
+
 1. Install [NodeJS](https://nodejs.org/en/)
 2. Clone this repository into a folder
 3. Open a command prompt inside the folder and enter `npm install`
@@ -32,7 +36,9 @@ Display CSGO information as rich presence in discord.
 
 # PM2 / Autostart
 
-**This is currently ONLY working on Windows - Soon Linux too**
+**Linux is implemented but I haven't even tested it & the instructions are a bit different**
+
+**Windows Instructions:**
 
 1. Install pm2 with `npm install pm2@latest -g`
 2. Create a **BAT** file with the following content: `pm2 start <Direct Path To Index.js> --name "CSGO-RichPresence"`. Example: `pm2 start D:/JavaScript/other/csgo-richpresence/index.js`
