@@ -40,14 +40,15 @@ Display CSGO information as rich presence in discord.
 
 **Windows Instructions:**
 
-1. Install pm2 with `npm install pm2@latest -g`
-2. Create a **BAT** file with the following content: `pm2 start <Direct Path To Index.js> --name "CSGO-RichPresence"`. Example: `pm2 start D:/JavaScript/other/csgo-richpresence/index.js`
-3. Press `CTRL + R` to open the run prompt
-4. Enter `shell:startup`. It should open a folder called `Autostart`
-5. Put the BAT file you just created into the `Autostart` folder
-6. Everytime your OS starts up you will see a command prompt open for a short period of time, that is pm2 launching the Rich Presence. It will now run in the background and automatically display when needed.
+1. Open a command prompt inside the folder from [Installation / How to use](#installation--how-to-use)
+2. Install pm2 with `npm install pm2@latest -g`
+3. Install [pm2-windows-startup](https://github.com/marklagendijk/node-pm2-windows-startup) with `npm install pm2-windows-startup -g`
+4. Enter `pm2-startup install` to set up the autostart
+5. Enter `pm2 start index.js --name "CSGO RichPresence"`
+6. Enter `pm2 save`
+7. Everytime your OS starts up the process will run in the background and automatically display when needed.
 
-[In the end it should look something like this](https://i.imgur.com/T7wlSIn.png)
+[In the end the output in your command prompt should look something like this](https://i.imgur.com/OT2AzeK.png)
 
 # Some notes for running it
 - Windows Only:
