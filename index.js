@@ -392,6 +392,19 @@ function updatePresence(RPC, data) {
 		return;
 	}
 
+	if (data.map.mode === 'survival') {
+		RPC.setActivity({
+			state: getLocalPlayerStats(data),
+			details: getDeathmatchDetails(data),
+			startTimestamp: parseInt(firstStart),
+			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
+			largeImageText: data.map.name,
+			smallImageKey: '6v6',
+			smallImageText: 'Mode: Danger Zone'
+		}).catch(() => {});
+		return;
+	}
+
 	// Unknown Gamemode
 	RPC.setActivity({
 		state: getLocalPlayerStats(data),
