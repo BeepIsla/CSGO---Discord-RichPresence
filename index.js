@@ -399,7 +399,7 @@ function updatePresence(RPC, data) {
 			startTimestamp: parseInt(firstStart),
 			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
-			smallImageKey: '6v6',
+			smallImageKey: 'unknown',
 			smallImageText: 'Mode: Danger Zone'
 		}).catch(() => {});
 		return;
