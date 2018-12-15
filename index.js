@@ -82,7 +82,7 @@ setInterval(() => {
 			}
 		});
 	}
-}, 1 * 1000); // Check if csgo.exe / csgo_linux(32/64) is running or not
+}, 5 * 1000); // Check if csgo.exe / csgo_linux(32/64) is running or not
 
 server = http.createServer((req, res) => {
 	if (req.method === 'POST') {
@@ -152,7 +152,7 @@ function getReady(RPC) {
 	
 			availableMapIcons = [];
 			for (let i = 0; i < json.length; i++) {
-				if (/^(de_|cs_|ar_|gd_|training1)/.test(json[i].name)) {
+				if (/^(dz_|de_|cs_|ar_|gd_|training1)/.test(json[i].name)) {
 					availableMapIcons.push(json[i].name);
 				}
 			}
