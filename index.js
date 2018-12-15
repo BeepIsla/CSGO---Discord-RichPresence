@@ -395,7 +395,7 @@ function updatePresence(RPC, data) {
 	if (data.map.mode === 'survival') {
 		RPC.setActivity({
 			state: getLocalPlayerStats(data),
-			details: getDeathmatchDetails(data),
+			details: getDangerZoneDetails(data),
 			startTimestamp: parseInt(firstStart),
 			largeImageKey: (availableMapIcons.includes(data.map.name) ? data.map.name : 'random'),
 			largeImageText: data.map.name,
@@ -441,6 +441,8 @@ function getTeamScoreDetails(data) {
 }
 
 function getLocalPlayerStats(data) {
+	if (data && data.map && data.map.mode === 'survival' && data.allplayers && data.player && data.provider && data.player.steamid === data.provider.steamid) return undefined;
+
 	if (data && data.player && !data.player.team) data.player.team = 'Spectator';
 	if (data.player.team === 'Spectator') return 'Round ' + data.map.round;
 
@@ -448,4 +450,21 @@ function getLocalPlayerStats(data) {
 
 	if (!isNaN(data.player.state.money)) return data.player.state.health + 'HP $' + data.player.state.money;
 	else return data.player.state.health + 'HP';
+}
+
+function getDangerZoneDetails(data) {
+	if (data.map.phase === 'warmup') {
+		return data.map.phase.charAt(0).toUpperCase() + data.map.phase.substr(1) + ' - ' + data.player.match_stats.kills + '/' + data.player.match_stats.assists + '/' + data.player.match_stats.deaths;
+	}
+
+	if (data.allplayers) {
+		if (data.player.steamid !== data.provider.steamid) { // We are spectating someone and not in free mode
+			return 'Spectator - ' + data.player.match_stats.kills + ' Kill' + (data.player.match_stats.kills === 1 ? '' : 's')  + ' ' + Object.keys(data.allplayers).map(player => data.allplayers[player]).filter(player => player.match_stats.deaths <= 0).length + ' alive';
+		}
+
+		// The alive counter is not 100% accurate, sometimes it displays the wrong amount, sometimes it doesn't. Very confusing, I don't know why.
+		return 'Spectator - ' + Object.keys(data.allplayers).map(player => data.allplayers[player]).filter(player => player.match_stats.deaths <= 0).length + ' alive';
+	}
+
+	return data.map.phase.charAt(0).toUpperCase() + data.map.phase.substr(1) + ' - ' + data.player.match_stats.kills + ' Kill' + (data.player.match_stats.kills === 1 ? '' : 's') + ' ' + data.player.match_stats.assists + ' Assist' + (data.player.match_stats.assists === 1 ? '' : 's');
 }
