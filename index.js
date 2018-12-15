@@ -458,7 +458,13 @@ function getDangerZoneDetails(data) {
 	}
 
 	if (data.allplayers) {
-		if (data.player.steamid !== data.provider.steamid) { // We are spectating someone and not in free mode
+		// We have a winner!
+		if (Object.keys(data.allplayers).map(player => data.allplayers[player]).filter(player => player.match_stats.deaths <= 0).length === 1) {
+			return 'Spectator 🏆 ' + Object.keys(data.allplayers).map(player => data.allplayers[player]).filter(player => player.match_stats.deaths <= 0)[0].name + ' 🏆';
+		}
+
+		// We are spectating someone and not in free mode
+		if (data.player.steamid !== data.provider.steamid) {
 			return 'Spectator - ' + data.player.match_stats.kills + ' Kill' + (data.player.match_stats.kills === 1 ? '' : 's')  + ' ' + Object.keys(data.allplayers).map(player => data.allplayers[player]).filter(player => player.match_stats.deaths <= 0).length + ' alive';
 		}
 
