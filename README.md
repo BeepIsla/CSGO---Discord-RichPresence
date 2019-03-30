@@ -2,8 +2,6 @@
 
 Display CSGO information as rich presence in discord.
 
-[Small showcase video](https://youtu.be/yvrA6LpmZkE) (Sorry for the low FPS - Had to run OBS twice to record the game & rich presence)
-
 [Small preview album](https://imgur.com/a/wWXjBlB)
 
 # Features
