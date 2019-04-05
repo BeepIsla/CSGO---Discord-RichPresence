@@ -5,8 +5,6 @@ module.exports = class Discord {
 		this.clientId = clientId;
 		this.client = new DDiscord.Client({ transport: "ipc" });
 		this.pid = null;
-
-		this.queue = [];
 	}
 
 	stop() {
