@@ -5,6 +5,8 @@ module.exports = class Discord {
 		this.clientId = clientId;
 		this.client = new DDiscord.Client({ transport: "ipc" });
 		this.pid = null;
+
+		this.queue = [];
 	}
 
 	stop() {
@@ -27,7 +29,6 @@ module.exports = class Discord {
 		}
 	}
 
-	// TODO: Add queue system for activities so I don't have to care about spamming it
 	async setActivity(obj) {
 		if (this.client.user === null) {
 			return;
