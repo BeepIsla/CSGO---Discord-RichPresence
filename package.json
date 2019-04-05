@@ -1,16 +1,18 @@
 {
   "name": "csgo-richpresence",
   "version": "1.0.0",
-  "description": "",
+  "description": "Display CSGO information as rich presence in discord",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BeepFelix/CSGO---Discord-RichPresence.git"
   },
   "keywords": [],
   "author": "github.com/BeepFelix",
-  "license": "ISC",
+  "license": "AGPL-3.0",
   "dependencies": {
-    "discord-rpc": "^3.0.0",
-    "request": "^2.87.0"
+    "discord-rpc": "^3.0.1",
+    "request": "^2.88.0",
+    "vdf": "0.0.2"
   }
 }
