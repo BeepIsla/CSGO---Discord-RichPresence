@@ -24,7 +24,6 @@ process.on("running", async (pid) => {
 	// Startup
 	await discord.start(pid, {
 		state: "In Main Menu",
-		startTimestamp: discord.client.connectTime,
 		largeImageKey: "menu",
 		largeImageText: "Main Menu",
 	});
@@ -34,6 +33,10 @@ process.on("running", async (pid) => {
 });
 
 server.on("csgo", async (data) => {
+	if (discord.client === null || discord.client.connectTime === null) {
+		return;
+	}
+
 	// Get current lobby if available
 	if (data.player.activity === "menu") {
 		let player = await Helper.getURL("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=" + config.steamWebAPIKey + "&steamids=" + data.provider.steamid).catch(console.error);
