@@ -2,7 +2,7 @@
 
 Display CSGO information as rich presence in discord.
 
-[Small preview album](https://imgur.com/a/wWXjBlB) (OUTDATED)
+[Preview album](https://imgur.com/a/BeyLwNC)
 
 # Features
 - [Automatically detects if the csgo.exe process is running or not in order to activate/deactivate the Rich Presence](#pm2---autostart)
