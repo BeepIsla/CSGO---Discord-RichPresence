@@ -24,7 +24,7 @@ process.on("running", async (pid) => {
 	// Startup
 	await discord.start(pid, {
 		state: "In Main Menu",
-		startTimestamp: Math.floor(discord.client.connectTime / 1000),
+		startTimestamp: discord.client.connectTime,
 		largeImageKey: "menu",
 		largeImageText: "Main Menu",
 	});
@@ -40,7 +40,7 @@ server.on("csgo", async (data) => {
 		if (typeof player === "undefined" || typeof player.response.players[0].lobbysteamid === "undefined") {
 			await discord.setActivity({
 				state: "In Main Menu",
-				startTimestamp: Math.floor(discord.client.connectTime / 1000),
+				startTimestamp: discord.client.connectTime,
 				largeImageKey: "menu",
 				largeImageText: "Main Menu",
 			});
@@ -49,7 +49,7 @@ server.on("csgo", async (data) => {
 
 		await discord.setActivity({
 			state: "In Lobby",
-			startTimestamp: Math.floor(discord.client.connectTime / 1000),
+			startTimestamp: discord.client.connectTime,
 			largeImageKey: "menu",
 			largeImageText: "Main Menu",
 			partyId: player.response.players[0].lobbysteamid,
@@ -64,7 +64,7 @@ server.on("csgo", async (data) => {
 
 	let obj = {
 		state: "Playing",
-		startTimestamp: Math.floor(discord.client.connectTime / 1000),
+		startTimestamp: discord.client.connectTime,
 		largeImageKey: "menu"
 	}
 
