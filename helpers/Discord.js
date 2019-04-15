@@ -1,4 +1,5 @@
 const DDiscord = require("discord-rpc");
+const childProcess = require("child_process");
 
 module.exports = class Discord {
 	constructor(clientId) {
@@ -26,6 +27,14 @@ module.exports = class Discord {
 
 		await this.client.login({ clientId: this.clientId });
 		this.client.connectTime = Math.round(Date.now() / 1000);
+
+		this.client.subscribe("ACTIVITY_JOIN", (data) => {
+			try {
+				data = Buffer.from(data.secret, "hex").toString("utf8").split("_");
+
+				childProcess.exec("start \"\" \"steam://joinlobby/730/" + data[1] + "/" + data[0] + "\"");
+			} catch(e) {};
+		});
 
 		if (typeof activity !== null) {
 			activity.startTimestamp = this.client.connectTime;
