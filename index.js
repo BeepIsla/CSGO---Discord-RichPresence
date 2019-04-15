@@ -87,7 +87,7 @@ server.on("csgo", async (data) => {
 		if (data.map.phase === "warmup") {
 			obj.state = "Warmup";
 		} else if (typeof data.map.team_ct === "object" && typeof data.map.team_t === "object") {
-			obj.state = Helper.getPhase(data.map.phase) + " " + data.map.team_ct.score + ":" + data.map.team_t.score;
+			obj.state = Helper.getPhase(data.map.phase) + " " + (data.player.team === "T" ? (data.map.team_t.score + ":" + data.map.team_ct.score) : (data.map.team_ct.score + ":" + data.map.team_t.score));
 		} else {
 			obj.state = Helper.getPhase(data.map.phase);
 		}
