@@ -42,7 +42,7 @@ The API Key in the config is required for us to request the current lobby you ar
 
 If you are in a lobby others can join you via Discord. **This is heavily restricted** because of Discord and CSGO (Because this isn't the real CSGO process). Others can only join you if they already have CSGO open and running **with the same application** (This one) otherwise it will just show that Discord did not detect the game. 
 
-UPDATE: With the new [Looking to Play](https://blog.counter-strike.net/index.php/2019/05/24154/) lobby update that CSGO has implemented, anyone wanting to join you also now **has to be friends** with the account you are currently playing on otherwise lobby joining will fail due to the way the update works.
+**UPDATE**: With the new [Looking to Play](https://blog.counter-strike.net/index.php/2019/05/24154/) lobby update that CSGO has implemented, anyone wanting to join you also now **has to be friends** with the account you are currently playing on otherwise lobby joining will fail due to the way the update works.
 
 # Custom Discord application
 
