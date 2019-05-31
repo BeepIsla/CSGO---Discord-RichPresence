@@ -38,9 +38,10 @@ Display CSGO information as rich presence in discord.
 
 # Lobby Info
 
-The API Key in the config is required for us to request the current lobby you are in. (**This only works if the API Key is your own API key *or* your profile and game-details are both public. The lobby also needs to be set to `Allow Players Nearby`.**)
+The API Key in the config is required for us to request the current lobby you are in. (**This only works if the API Key is your own API key *or* your profile and game-details are both public. The lobby also needs to be set to `Friends Can Join`.**)
 
-If you are in a lobby others can join you via Discord. **This is heavily restricted** because of Discord and CSGO (Because this isn't the real CSGO process). Others can only join you if they already have CSGO open and running **with the same application** (This one) otherwise it will just show that Discord did not detect the game
+If you are in a lobby others can join you via Discord. **This is heavily restricted** because of Discord and CSGO (Because this isn't the real CSGO process). Others can only join you if they already have CSGO open and running **with the same application** (This one) otherwise it will just show that Discord did not detect the game. 
+With the new "Looking to Play" lobby update that CSGO has implemented, anyone wanting to join you also now **has to be friends** with the account you are currently playing on otherwise lobby joining will fail due to the way the "Looking to Play" update works.
 
 # Custom Discord application
 
@@ -50,7 +51,7 @@ If you are in a lobby others can join you via Discord. **This is heavily restric
 
 **Notes:**
 - Maps are called exactly what they are called ingame. `cs_office` ingame is `cs_office` in the assets list. Workshop maps are `workshop/<ID>/<mapname>` (Just like how they are ingame) in the assets list. Example: `workshop/243702660/aim_botz`
-- Gamemodes use their game-interal name such as `competitive`, `scrimpcomp2v2`, `survival`, etc.
+- Gamemodes use their game-internal name such as `competitive`, `scrimpcomp2v2`, `survival`, etc.
 - Main Menu uses the `menu` asset
 - Unknown Maps and Modes use the `random` asset
 - The `default` asset is used when the client is in the main menu and when we are in a unknown gamemode
