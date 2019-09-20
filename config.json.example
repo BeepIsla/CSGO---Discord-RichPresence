@@ -3,5 +3,6 @@
 	"steamWebAPIKey": "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 	"serverPort": 21812,
 	"authToken": "Q79v5tcxVQ8u",
-	"processCheckDelay": 10000
+	"processCheckDelay": 10000,
+	"teamSmallImage": false
 }

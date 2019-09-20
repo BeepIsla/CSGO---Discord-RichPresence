@@ -20,11 +20,20 @@ Display CSGO information as rich presence in discord.
 1. Install [NodeJS](https://nodejs.org/)
 2. Clone this repository into a folder
 3. Open a command prompt inside the folder and enter `npm install`
-4. Rename `config.json.example` to `config.json`
+4. Rename `config.json.example` to `config.json` and adjust it - [Read More](#config)
 5. Move `gamestate_integration_discord.cfg` into your `<Steam>\steamapps\common\Counter-Strike Global Offensive\csgo\cfg` folder and restart csgo, if opened
 6. Go back to the command prompt we opened earlier and enter `node index` to start the process (**You will always need to repeat this last step unless you use [PM2 for Auto-Starting](#pm2---autostart)**)
 
 **Start the process and leave it running!** When you close it the rich presence will disappear.
+
+# Config
+
+- `clientId`: A string representing the client ID of your Discord Application
+- `steamWebAPIKey`: A string with your Steam Web API Key from [here](https://steamcommunity.com/dev/apikey)
+- `serverPort`: A number with the port the local server is running on - **Needs to match the port in `gamestate_integration_discord.cfg`**
+- `authToken`: A string with your auth token from `gamestate_integration_discord.cfg`
+- `processCheckDelay`: A number representing the interval in milliseconds between checking if CSGO is running or not
+- `teamSmallImage`: A boolean value whether or not you want to display a team image or a gamemode image
 
 # PM2 - Autostart
 
