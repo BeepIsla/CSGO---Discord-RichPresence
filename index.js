@@ -71,10 +71,18 @@ server.on("csgo", async (data) => {
 		largeImageKey: "menu"
 	}
 
-	if (typeof data.map === "object" && typeof data.map.mode === "string") {
-		obj.smallImageKey = Helper.getIcon(data.map.mode);
-		obj.smallImageText = Helper.getTeam(data);
-		obj.details = Helper.getGamemode(data.map.mode);
+	if (!config.teamSmallImage) {
+		if (typeof data.map === "object" && typeof data.map.mode === "string") {
+			obj.smallImageKey = Helper.getIcon(data.map.mode);
+			obj.smallImageText = Helper.getTeam(data);
+			obj.details = Helper.getGamemode(data.map.mode);
+		}
+	} else {
+		if (typeof data.player === "object" && typeof data.player.team === "string" && typeof data.map === "object" && typeof data.map.mode === "string") {
+			obj.smallImageKey = data.player.team === "T" ? "t_logo" : (data.player.team === "CT" ? "ct_logo" : undefined);
+			obj.smallImageText = Helper.getTeam(data);
+			obj.details = Helper.getGamemode(data.map.mode);
+		}
 	}
 
 	if (typeof data.map === "object" && typeof data.map.name === "string") {
