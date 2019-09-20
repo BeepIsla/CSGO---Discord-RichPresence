@@ -14,5 +14,8 @@
     "discord-rpc": "^3.0.1",
     "request": "^2.88.0",
     "vdf": "0.0.2"
+  },
+  "devDependencies": {
+    "jimp": "^0.8.3"
   }
 }
