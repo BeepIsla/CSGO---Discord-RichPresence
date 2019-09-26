@@ -16,37 +16,49 @@ const discord = new Discord(config.clientId);
 const server = new Server(config.authToken);
 
 process.on("stopped", () => {
+	if (Helper.LaunchedWithDebugger()) {
+		console.log("Stopped");
+	}
+
 	discord.stop();
 	server.server.close();
 });
 
 process.on("running", async (pid) => {
+	if (Helper.LaunchedWithDebugger()) {
+		console.log("Running");
+	}
+
 	// Startup
 	await discord.start(pid, {
 		state: "In Main Menu",
 		largeImageKey: "menu",
 		largeImageText: "Main Menu",
-	});
+	}).catch(console.error);
 
 	// Start HTTP listener
 	server.server.listen(config.serverPort);
 });
 
 server.on("csgo", async (data) => {
-	if (discord.client === null || discord.client.connectTime === null) {
+	if (Helper.LaunchedWithDebugger()) {
+		console.log("csgo");
+	}
+
+	if (!discord.client || !discord.client.connectTime) {
 		return;
 	}
 
 	// Get current lobby if available
 	if (data.player.activity === "menu") {
 		let player = await Helper.getURL("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=" + config.steamWebAPIKey + "&steamids=" + data.provider.steamid).catch(console.error);
-		if (typeof player === "undefined" || typeof player.response.players[0].lobbysteamid === "undefined") {
+		if (!player || !player.response || !player.response.players[0] || !player.response.players[0].lobbysteamid) {
 			await discord.setActivity({
 				state: "In Main Menu",
 				startTimestamp: discord.client.connectTime,
 				largeImageKey: "menu",
 				largeImageText: "Main Menu",
-			});
+			}).catch(console.error);
 			return;
 		}
 
@@ -59,7 +71,7 @@ server.on("csgo", async (data) => {
 			partySize: 1,
 			partyMax: 5,
 			joinSecret: Buffer.from(data.provider.steamid + "_" + player.response.players[0].lobbysteamid).toString("hex").toUpperCase()
-		});
+		}).catch(console.error);
 
 		// No need to do anything more, main menu is main menu. Nothing much we can do.
 		return;
@@ -72,29 +84,29 @@ server.on("csgo", async (data) => {
 	}
 
 	if (!config.teamSmallImage) {
-		if (typeof data.map === "object" && typeof data.map.mode === "string") {
+		if (data.map && data.map.mode) {
 			obj.smallImageKey = Helper.getIcon(data.map.mode);
 			obj.smallImageText = Helper.getTeam(data);
 			obj.details = Helper.getGamemode(data.map.mode);
 		}
 	} else {
-		if (typeof data.player === "object" && typeof data.player.team === "string" && typeof data.map === "object" && typeof data.map.mode === "string") {
+		if (data.player && data.player.team && data.map && data.map.mode) {
 			obj.smallImageKey = data.player.team === "T" ? "t_logo" : (data.player.team === "CT" ? "ct_logo" : undefined);
 			obj.smallImageText = Helper.getTeam(data);
 			obj.details = Helper.getGamemode(data.map.mode);
 		}
 	}
 
-	if (typeof data.map === "object" && typeof data.map.name === "string") {
+	if (data.map && data.map.name) {
 		let mapName = Helper.getMap(data.map.name);
 		obj.largeImageKey = Helper.getIcon(data.map.name);
 		obj.largeImageText = "Playing on " + mapName;
 	}
 
-	if (typeof data.map === "object" && typeof data.map.phase === "string") {
+	if (data.map && data.map.phase) {
 		if (data.map.phase === "warmup") {
 			obj.state = "Warmup";
-		} else if (typeof data.map.team_ct === "object" && typeof data.map.team_t === "object") {
+		} else if (data.map.team_ct && data.map.team_t) {
 			obj.state = Helper.getPhase(data.map.phase) + " " + (data.player.team === "T" ? (data.map.team_t.score + ":" + data.map.team_ct.score) : (data.map.team_ct.score + ":" + data.map.team_t.score));
 		} else {
 			obj.state = Helper.getPhase(data.map.phase);
@@ -105,5 +117,5 @@ server.on("csgo", async (data) => {
 		console.log(data, obj);
 	}
 
-	await discord.setActivity(obj);
+	await discord.setActivity(obj).catch(console.error);
 });

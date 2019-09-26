@@ -13,14 +13,14 @@ module.exports = class Helper {
 	static IsValidAPIKey(key, clientId) {
 		return new Promise(async (resolve, reject) => {
 			// While also checking if the key is correct lets grab some other stuff as well
-			let out = await this.getMaps("https://raw.githubusercontent.com/SteamDatabase/GameTracking-CSGO/master/csgo/resource/csgo_english.txt").catch(() => {});
+			let out = await this.getMaps("https://raw.githubusercontent.com/SteamDatabase/GameTracking-CSGO/master/csgo/resource/csgo_english.txt").catch(() => { });
 			maps = out.maps;
 			modes = out.modes;
 
-			availableIcons = await this.getIcons("https://discordapp.com/api/oauth2/applications/" + clientId + "/assets").catch(() => {});
+			availableIcons = await this.getIcons("https://discordapp.com/api/oauth2/applications/" + clientId + "/assets").catch(() => { });
 
 			let res = await this.getURL("https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=" + key).catch(() => { });
-			if (typeof res === "undefined") {
+			if (!res) {
 				resolve(false);
 				return;
 			}
@@ -32,14 +32,14 @@ module.exports = class Helper {
 	static getMaps(url) {
 		return new Promise(async (resolve, reject) => {
 			let data = await this.getURL(url, false).catch(reject);
-			if (typeof data === "undefined") {
+			if (!data) {
 				return;
 			}
 
 			let objMaps = {};
 			let lang = vdf.parse(data).lang;
 			for (let token in lang.Tokens) {
-				if (token.startsWith("SFUI_Map_") === false) {
+				if (!token.startsWith("SFUI_Map_")) {
 					continue;
 				}
 
@@ -48,7 +48,7 @@ module.exports = class Helper {
 
 			let objModes = {};
 			for (let token in lang.Tokens) {
-				if (token.startsWith("SFUI_GameMode_") === false) {
+				if (!token.startsWith("SFUI_GameMode_")) {
 					continue;
 				}
 
@@ -62,7 +62,7 @@ module.exports = class Helper {
 	static getIcons(url) {
 		return new Promise(async (resolve, reject) => {
 			let data = await this.getURL(url).catch(reject);
-			if (typeof data === "undefined") {
+			if (!data) {
 				return;
 			}
 
@@ -83,7 +83,7 @@ module.exports = class Helper {
 					return;
 				}
 
-				if (isJSON === false) {
+				if (!isJSON) {
 					resolve(body);
 					return;
 				}
@@ -93,7 +93,7 @@ module.exports = class Helper {
 					json = JSON.parse(body);
 				} catch (e) { };
 
-				if (json === undefined) {
+				if (!json) {
 					reject(body);
 					return;
 				}
@@ -104,19 +104,11 @@ module.exports = class Helper {
 	}
 
 	static getGamemode(mode) {
-		if (typeof modes[mode.toLowerCase()] === "string") {
-			return modes[mode.toLowerCase()];
-		}
-
-		return mode;
+		return modes[mode.toLowerCase()] || mode;
 	}
 
 	static getMap(map) {
-		if (typeof maps[map.toLowerCase()] === "string") {
-			return maps[map.toLowerCase()];
-		}
-
-		return map;
+		return maps[map.toLowerCase()] || map;
 	}
 
 	static getPhase(phase) {
@@ -149,7 +141,7 @@ module.exports = class Helper {
 			return "random";
 		}
 
-		if (availableIcons.includes(icon.toLowerCase()) === false) {
+		if (!availableIcons.includes(icon.toLowerCase())) {
 			return "random";
 		}
 
