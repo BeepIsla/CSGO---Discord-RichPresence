@@ -20,9 +20,9 @@ module.exports = class Server extends Events {
 				let json = undefined;
 				try {
 					json = JSON.parse(post);
-				} catch(e) {};
+				} catch (e) { };
 
-				if (json === undefined) {
+				if (!json) {
 					res.writeHead(404);
 					res.end();
 					return;

@@ -12,9 +12,9 @@ module.exports = class Process extends Events {
 
 		// Continously loop
 		this.interval = setInterval(async () => {
-			let PID = await this.isRunning().catch(() => {});
-			if (typeof PID === "undefined") {
-				if (this.running === false) {
+			let PID = await this.isRunning().catch(() => { });
+			if (!PID) {
+				if (!this.running) {
 					return;
 				}
 
@@ -24,7 +24,7 @@ module.exports = class Process extends Events {
 				return;
 			}
 
-			if (this.running === true) {
+			if (this.running) {
 				return;
 			}
 
@@ -49,11 +49,11 @@ module.exports = class Process extends Events {
 				let lines = stdout.split("\n");
 				for (let line of lines) {
 					let match = line.trim().match(/^(?<process>.+\.exe)\s+(?<pid>\d+)\s+(.+)\s+(\d+)\s+(\d+([\.,�\s]\d+|){0,})\s+[A-Z]+$/);
-					if (match === null) {
+					if (!match) {
 						continue;
 					}
 
-					if (match.groups === null) {
+					if (!match.groups) {
 						continue;
 					}
 
