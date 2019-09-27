@@ -141,10 +141,16 @@ module.exports = class Helper {
 			return "random";
 		}
 
-		if (!availableIcons.includes(icon.toLowerCase())) {
+		icon = this.normalize(icon.toLowerCase());
+
+		if (!availableIcons.includes(icon)) {
 			return "random";
 		}
 
 		return icon;
+	}
+
+	static normalize(str) {
+		return str.replace(/(?![\w\d]+)./gi, "_");
 	}
 }
