@@ -66,3 +66,4 @@ If you are in a lobby others can join you via Discord. **This is heavily restric
 - Unknown Maps and Modes use the `random` asset
 - The `default` asset is used when the client is in the main menu and when we are in a unknown gamemode
 - The [`assets` folder](/assets) are the images I use in my application. They are directly taken from the game files.
+- Changing assets will require you to reboot the script (If you are using pm2 just run `pm2 restart "CSGO RichPresence"`)
