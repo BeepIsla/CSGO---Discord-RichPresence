@@ -60,7 +60,7 @@ If you are in a lobby others can join you via Discord. **This is heavily restric
 3. Replace the client ID from the `config.json` with the one you have in `General Information` on the website
 
 **Notes:**
-- Maps are called exactly what they are called ingame. `cs_office` ingame is `cs_office` in the assets list. Workshop maps are `workshop/<ID>/<mapname>` (Just like how they are ingame) in the assets list. Example: `workshop/243702660/aim_botz`
+- Maps are called exactly what they are called ingame. `cs_office` ingame is `cs_office` in the assets list. Workshop maps are `workshop_<ID>_<mapname>`, replace **every** character which is not A-Z or 0-9 with an underscore and you will be good to go. You can us [this website](https://regex101.com/r/dWSbbe/2) to see how you have to name your file.
 - Gamemodes use their game-internal name such as `competitive`, `scrimpcomp2v2`, `survival`, etc.
 - Main Menu uses the `menu` asset
 - Unknown Maps and Modes use the `random` asset
