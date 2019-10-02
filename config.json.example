@@ -4,5 +4,6 @@
 	"serverPort": 21812,
 	"authToken": "Q79v5tcxVQ8u",
 	"processCheckDelay": 10000,
-	"teamSmallImage": false
+	"teamSmallImage": true,
+	"timeElapsedTotal": true
 }
