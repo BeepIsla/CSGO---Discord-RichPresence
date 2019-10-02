@@ -29,6 +29,19 @@ module.exports = class Helper {
 		});
 	}
 
+	static getWorkshopName(fileid) {
+		return new Promise((resolve, reject) => {
+			this.getURL({
+				method: "POST",
+				uri: "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/",
+				form: {
+					"publishedfileids[0]": fileid,
+					itemcount: 1
+				}
+			}).then(resolve).catch(reject);
+		});
+	}
+
 	static getMaps(url) {
 		return new Promise(async (resolve, reject) => {
 			let data = await this.getURL(url, false).catch(reject);
@@ -148,6 +161,36 @@ module.exports = class Helper {
 		}
 
 		return icon;
+	}
+
+	static gamemodeModification(data, obj) {
+		if (!data || !data.map || !data.map.mode) {
+			return obj;
+		}
+
+		switch (data.map.mode) {
+			case "deathmatch": {
+				if (obj.state === "Warmup") {
+					break;
+				}
+
+				obj.state = data.player.match_stats.score + " score";
+				break;
+			}
+			case "survival": {
+				if (obj.state === "Warmup") {
+					break;
+				}
+
+				obj.state = data.player.match_stats.kills + " kill" + (data.player.match_stats.kills === 1 ? "" : "s");
+				break;
+			}
+			default: {
+				break;
+			}
+		}
+
+		return obj;
 	}
 
 	static normalize(str) {

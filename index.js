@@ -14,6 +14,7 @@ const config = require("./config.json");
 const process = new Process("csgo.exe", config.processCheckDelay);
 const discord = new Discord(config.clientId);
 const server = new Server(config.authToken);
+const lastInfo = {};
 
 process.on("stopped", () => {
 	if (Helper.LaunchedWithDebugger()) {
@@ -41,16 +42,17 @@ process.on("running", async (pid) => {
 });
 
 server.on("csgo", async (data) => {
-	if (Helper.LaunchedWithDebugger()) {
-		console.log("csgo");
-	}
-
 	if (!discord.client || !discord.client.connectTime) {
 		return;
 	}
 
 	// Get current lobby if available
 	if (data.player.activity === "menu") {
+		if (!config.timeElapsedTotal && lastInfo.mode) {
+			discord.client.connectTime = Math.round(Date.now() / 1000);
+			lastInfo.mode = undefined;
+		}
+
 		let player = await Helper.getURL("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=" + config.steamWebAPIKey + "&steamids=" + data.provider.steamid).catch(console.error);
 		if (!player || !player.response || !player.response.players[0] || !player.response.players[0].lobbysteamid) {
 			await discord.setActivity({
@@ -107,9 +109,25 @@ server.on("csgo", async (data) => {
 		if (data.map.phase === "warmup") {
 			obj.state = "Warmup";
 		} else if (data.map.team_ct && data.map.team_t) {
-			obj.state = Helper.getPhase(data.map.phase) + " " + (data.player.team === "T" ? (data.map.team_t.score + ":" + data.map.team_ct.score) : (data.map.team_ct.score + ":" + data.map.team_t.score));
+			obj.state = Helper.getPhase(data.map.phase) + " | " + (data.player.team === "T" ? (data.map.team_t.score + ":" + data.map.team_ct.score) : (data.map.team_ct.score + ":" + data.map.team_t.score));
 		} else {
 			obj.state = Helper.getPhase(data.map.phase);
+		}
+	}
+
+	obj = Helper.gamemodeModification(data, obj);
+
+	if (!config.timeElapsedTotal && (!data.map || !data.map.mode || data.map.mode !== lastInfo.mode)) {
+		discord.client.connectTime = Math.round(Date.now() / 1000);
+		obj.startTimestamp = discord.client.connectTime;
+		lastInfo.mode = (data.map && data.map.mode) ? data.map.mode : undefined;
+	}
+
+	if (data && data.map && data.map.name && data.map.name.split("/")[0] === "workshop") {
+		let fileID = data.map.name.split("/")[1];
+		let map = await Helper.getWorkshopName(fileID).catch((e) => { console.error(e); });
+		if (map && map.response.result === 1 && map.response.resultcount === 1 && map.response.publishedfiledetails.length >= 1) {
+			obj.largeImageText = "Playing on " + map.response.publishedfiledetails[0].title;
 		}
 	}
 
