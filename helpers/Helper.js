@@ -174,7 +174,7 @@ module.exports = class Helper {
 					break;
 				}
 
-				obj.state = data.player.match_stats.score + " score";
+				obj.state = "Score: " + data.player.match_stats.score;
 				break;
 			}
 			case "survival": {
