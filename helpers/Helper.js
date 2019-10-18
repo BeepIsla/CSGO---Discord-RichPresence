@@ -129,7 +129,7 @@ module.exports = class Helper {
 			case "warmup":
 				return "Warmup";
 			case "live":
-				return "Live";
+				return "In-Game";
 			case "intermission":
 				return "Half-Time";
 			case "gameover":
