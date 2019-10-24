@@ -182,7 +182,7 @@ module.exports = class Helper {
 					break;
 				}
 
-				obj.state = data.player.match_stats.kills + " kill" + (data.player.match_stats.kills === 1 ? "" : "s");
+				obj.state = "Kills: " + data.player.match_stats.kills;
 				break;
 			}
 			default: {
