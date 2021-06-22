@@ -6,7 +6,7 @@ Display CSGO information as rich presence in discord.
 
 ## Features
 
-- [Automatically detects if the csgo.exe process is running or not in order to activate/deactivate the Rich Presence](#pm2---autostart)
+- [Automatically detects if the csgo.sh process is running or not in order to activate/deactivate the Rich Presence](#pm2---autostart)
 - [Lobby Support](#lobby-info)
 - 100% VAC Secure. Uses the [CSGO Game State Integration](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration) and a local http server on port 21812 (CSGO's release date 21st August 2012) to recieve game data
 - All official maps currently available supported
@@ -40,11 +40,10 @@ Display CSGO information as rich presence in discord.
 
 1. Open a command prompt inside the folder from the [installation](#installation)
 2. Install [pm2](https://pm2.io/) with `npm install pm2@latest -g`
-3. Install [pm2-windows-startup](https://github.com/marklagendijk/node-pm2-windows-startup) with `npm install pm2-windows-startup -g`
-4. Enter `pm2-startup install` to set up the autostart
-5. Enter `pm2 start index.js --name "CSGO RichPresence"`
-6. Enter `pm2 save`
-7. Everytime your OS starts up the process will run in the background and automatically display when needed.
+3. Enter `pm2 startup` to set up the autostart. It may ask to execute a command in the terminal.
+4. Enter `pm2 start index.js --name "CSGO RichPresence"`
+5. Enter `pm2 save`
+6. Everytime your OS starts up the process will run in the background and automatically display when needed.
 
 ## Lobby Info
 
