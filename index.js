@@ -11,7 +11,7 @@ const config = require("./config.json");
 	}
 })();
 
-const process = new Process("csgo.exe", config.processCheckDelay);
+const process = new Process("csgo.sh", config.processCheckDelay);
 const discord = new Discord(config.clientId);
 const server = new Server(config.authToken);
 const lastInfo = {};
