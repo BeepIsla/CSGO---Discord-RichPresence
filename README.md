@@ -37,8 +37,17 @@ Display CSGO information as rich presence in discord.
 - `teamSmallImage`: A boolean value whether or not you want to display a team image or a gamemode image
 
 ## PM2 - Autostart
-
+### Windows
 1. Open a command prompt inside the folder from the [installation](#installation)
+2. Install [pm2](https://pm2.io/) with `npm install pm2@latest -g`
+3. Install [pm2-windows-startup](https://github.com/marklagendijk/node-pm2-windows-startup) with `npm install pm2-windows-startup -g`
+4. Enter `pm2-startup install` to set up the autostart
+5. Enter `pm2 start index.js --name "CSGO RichPresence"`
+6. Enter `pm2 save`
+7. Everytime your OS starts up the process will run in the background and automatically display when needed.
+
+### Linux
+1. Open a terminal emulator inside the folder from the [installation](#installation)
 2. Install [pm2](https://pm2.io/) with `npm install pm2@latest -g`
 3. Enter `pm2 startup` to set up the autostart. It may ask to execute a command in the terminal.
 4. Enter `pm2 start index.js --name "CSGO RichPresence"`
