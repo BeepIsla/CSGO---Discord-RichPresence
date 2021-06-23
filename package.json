@@ -11,11 +11,11 @@
   "author": "github.com/BeepIsla",
   "license": "AGPL-3.0",
   "dependencies": {
-    "discord-rpc": "^3.1.0",
+    "discord-rpc": "^3.2.0",
     "got": "^11.8.2",
     "vdf": "0.0.2"
   },
   "devDependencies": {
-    "jimp": "^0.8.3"
+    "jimp": "^0.8.5"
   }
 }

@@ -23,7 +23,7 @@ module.exports = class Discord {
 			this.pid = pid;
 
 			if (!this.client) {
-				this.client = new DDiscord.Client({ transport: "ipc" });
+				this.client = new DDiscord.Client({ transport: "websocket" });
 			}
 
 			this.client.login({ clientId: this.clientId }).then(() => {
