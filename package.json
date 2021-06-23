@@ -5,10 +5,10 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/BeepFelix/CSGO---Discord-RichPresence.git"
+    "url": "https://github.com/BeepIsla/CSGO---Discord-RichPresence.git"
   },
   "keywords": [],
-  "author": "github.com/BeepFelix",
+  "author": "github.com/BeepIsla",
   "license": "AGPL-3.0",
   "dependencies": {
     "discord-rpc": "^3.1.0",
