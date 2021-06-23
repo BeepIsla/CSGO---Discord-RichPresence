@@ -1,4 +1,4 @@
-const request = require("request");
+const got = require("got").default;
 const vdf = require("vdf");
 let maps = {};
 let modes = {};
@@ -83,37 +83,22 @@ module.exports = class Helper {
 		});
 	}
 
-	static getURL(url, isJSON = true) {
-		return new Promise((resolve, reject) => {
-			request(url, (err, res, body) => {
-				if (err) {
-					reject(err);
-					return;
-				}
+	static async getURL(url, isJSON = true) {
+		let req = await got(url);
+		if (req.statusCode !== 200) {
+			throw req.statusCode;
+		}
 
-				if (res.statusCode !== 200) {
-					reject(res.statusCode);
-					return;
-				}
+		if (!isJSON) {
+			return req.body;
+		}
 
-				if (!isJSON) {
-					resolve(body);
-					return;
-				}
-
-				let json = undefined;
-				try {
-					json = JSON.parse(body);
-				} catch (e) { };
-
-				if (!json) {
-					reject(body);
-					return;
-				}
-
-				resolve(json);
-			});
-		});
+		try {
+			let json = JSON.parse(req.body);
+			return json;
+		} catch {
+			throw req.body;
+		}
 	}
 
 	static getGamemode(mode) {
