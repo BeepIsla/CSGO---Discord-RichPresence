@@ -3,6 +3,7 @@ const Process = require("./helpers/Process.js");
 const Discord = require("./helpers/Discord.js");
 const Server = require("./helpers/Server.js");
 const config = require("./config.json");
+const os = require("os");
 
 (async () => {
 	let valid = await Helper.IsValidAPIKey(config.steamWebAPIKey, config.clientId);
@@ -11,7 +12,9 @@ const config = require("./config.json");
 	}
 })();
 
-const process = new Process("csgo.exe", config.processCheckDelay);
+const processName = os.platform() === "win32" ? "csgo.exe" : "csgo.sh";
+
+const process = new Process(processName, config.processCheckDelay);
 const discord = new Discord(config.clientId);
 const server = new Server(config.authToken);
 const lastInfo = {};
