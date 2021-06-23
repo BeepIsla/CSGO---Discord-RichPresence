@@ -5,18 +5,6 @@ const Helper = require("../helpers/Helper.js");
 const config = require("./config.json");
 
 (async () => {
-	// Empty "out" folder
-	let outPath = path.join(__dirname, "out");
-	if (fs.existsSync(outPath)) {
-		fs.rmSync(outPath, {
-			force: true,
-			maxRetries: 3,
-			recursive: true,
-			retryDelay: 10
-		});
-	}
-	fs.mkdirSync(outPath);
-
 	// Get list of current files
 	let assets = await Helper.getURL({
 		url: "https://discord.com/api/v9/oauth2/applications/" + config.id + "/assets",
