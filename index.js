@@ -12,7 +12,7 @@ const os = require("os");
 	}
 })();
 
-const processName = os.platform.name === "win32" ? "csgo.exe" : "csgo.sh";
+const processName = os.platform() === "win32" ? "csgo.exe" : "csgo.sh";
 
 const process = new Process(processName, config.processCheckDelay);
 const discord = new Discord(config.clientId);

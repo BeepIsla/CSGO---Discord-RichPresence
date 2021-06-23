@@ -11,9 +11,9 @@ module.exports = class Process extends Events {
 		this.running = false;
 		this.curPID = null;
 
-		if (os.platform.name === "win32") {
+		if (os.platform() === "win32") {
 			this.tasklist = "tasklist";
-			this.regex = /^(?<process>.+\.exe)\s+(?<pid>\d+)\s+(.+)\s+(\d+)\s+(\d+([\.,�\s]\d+|)*)\s+.*$/;
+			this.regex = /^(?<process>.+\.exe)\s+(?<pid>\d+)\s+(.+)\s+(\d+)\s+(\d+([.,�\s]\d+|)*)\s+.*$/;
 		} else {
 			this.tasklist = "ps aux | grep " + process;
 			this.regex = /^[^\W\d]+\s+(?<pid>\d+)\s+\d+\.\d+\s+\d+\.\d+\s+\d+\s+\d+\s+.+?\s+.+?\s+\d+?:\d+?\s+\d+?:\d+?\s+\/(?:.+?\/)+(?<process>\S+)\s(?:-{1,2}.+)*$/;
