@@ -51,11 +51,10 @@ module.exports = class Process extends Events {
 				for (let line of lines) {
 					let match = undefined;
 					if (Helper.isWindows()) {
-						match = line.trim().match(/^(?<process>.+\.exe)\s+(?<pid>\d+)\s+(.+)\s+(\d+)\s+(\d+([\.,�\s]\d+|){0,})\s+[A-Z]+$/);
+						match = line.trim().match(/^(?<process>.+\.exe)\s+(?<pid>\d+)\s+(.+)\s+(\d+)\s+(\d+([\.,�\s]\d+|){0,})\s+.*$/);
 					} else {
 						match = line.trim().match(/^[^\W\d]+\s+(?<pid>\d+)\s+\d+\.\d+\s+\d+\.\d+\s+\d+\s+\d+\s+.+?\s+.+?\s+\d+?:\d+?\s+\d+?:\d+?\s+\/(?:.+?\/)+(?<process>\S+)\s(?:-{1,2}.+)*$/);
 					}
-
 					if (!match) {
 						continue;
 					}
