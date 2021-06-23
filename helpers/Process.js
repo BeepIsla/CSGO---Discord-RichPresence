@@ -1,5 +1,6 @@
 const childProcess = require("child_process");
 const Events = require("events");
+const os = require("os");
 
 module.exports = class Process extends Events {
 	constructor(process, checkInterval) {
@@ -9,6 +10,14 @@ module.exports = class Process extends Events {
 		this.process = process;
 		this.running = false;
 		this.curPID = null;
+
+		if (os.platform.name === "win32") {
+			this.tasklist = "tasklist";
+			this.regex = /^(?<process>.+\.exe)\s+(?<pid>\d+)\s+(.+)\s+(\d+)\s+(\d+([\.,�\s]\d+|)*)\s+.*$/;
+		} else {
+			this.tasklist = "ps aux | grep " + process;
+			this.regex = /^[^\W\d]+\s+(?<pid>\d+)\s+\d+\.\d+\s+\d+\.\d+\s+\d+\s+\d+\s+.+?\s+.+?\s+\d+?:\d+?\s+\d+?:\d+?\s+\/(?:.+?\/)+(?<process>\S+)\s(?:-{1,2}.+)*$/;
+		}
 
 		// Continuously loop
 		this.interval = setInterval(async () => {
@@ -48,7 +57,7 @@ module.exports = class Process extends Events {
 
 				let lines = stdout.split("\n");
 				for (let line of lines) {
-					let match = line.trim().match(/^[^\W\d]+\s+(?<pid>\d+)\s+\d+\.\d+\s+\d+\.\d+\s+\d+\s+\d+\s+.+?\s+.+?\s+\d+?:\d+?\s+\d+?:\d+?\s+\/(?:.+?\/)+(?<process>\S+)\s(?:-{1,2}.+)*$/);
+					let match = line.trim().match(this.regex);
 					if (!match) {
 						continue;
 					}
