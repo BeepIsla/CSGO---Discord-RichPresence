@@ -1,5 +1,6 @@
 const childProcess = require("child_process");
 const Events = require("events");
+const Helper = require("./Helper.js");
 
 module.exports = class Process extends Events {
 	constructor(process, checkInterval) {
@@ -40,7 +41,7 @@ module.exports = class Process extends Events {
 	 */
 	isRunning() {
 		return new Promise((resolve, reject) => {
-			childProcess.exec("tasklist", { windowsHide: true }, async (err, stdout, stderr) => {
+			childProcess.exec(Helper.isWindows() ? "tasklist" : ("ps aux | grep " + this.process), { windowsHide: true }, async (err, stdout, stderr) => {
 				if (err) {
 					reject(err);
 					return;
@@ -48,7 +49,13 @@ module.exports = class Process extends Events {
 
 				let lines = stdout.split("\n");
 				for (let line of lines) {
-					let match = line.trim().match(/^(?<process>.+\.exe)\s+(?<pid>\d+)\s+(.+)\s+(\d+)\s+(\d+([\.,�\s]\d+|){0,})\s+[A-Z]+$/);
+					let match = undefined;
+					if (Helper.isWindows()) {
+						match = line.trim().match(/^(?<process>.+\.exe)\s+(?<pid>\d+)\s+(.+)\s+(\d+)\s+(\d+([\.,�\s]\d+|){0,})\s+[A-Z]+$/);
+					} else {
+						match = line.trim().match(/^[^\W\d]+\s+(?<pid>\d+)\s+\d+\.\d+\s+\d+\.\d+\s+\d+\s+\d+\s+.+?\s+.+?\s+\d+?:\d+?\s+\d+?:\d+?\s+\/(?:.+?\/)+(?<process>\S+)\s(?:-{1,2}.+)*$/);
+					}
+
 					if (!match) {
 						continue;
 					}
