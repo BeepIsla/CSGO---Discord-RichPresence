@@ -83,10 +83,15 @@ module.exports = class Helper {
 		});
 	}
 
-	static async getURL(url, isJSON = true) {
+	static async getURL(url, isJSON = true, isBuffer = false) {
 		let req = await got(url);
-		if (req.statusCode !== 200) {
+		if ((req.statusCode - 200) >= 100) {
+			// Any 200 is "success"
 			throw req.statusCode;
+		}
+
+		if (isBuffer) {
+			return req.rawBody;
 		}
 
 		if (!isJSON) {
