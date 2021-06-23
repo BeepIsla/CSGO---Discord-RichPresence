@@ -49,7 +49,7 @@ module.exports = class Process extends Events {
 	 */
 	isRunning() {
 		return new Promise((resolve, reject) => {
-			childProcess.exec("ps aux | grep " + this.process, { windowsHide: true }, async (err, stdout, stderr) => {
+			childProcess.exec(this.tasklist, { windowsHide: true }, async (err, stdout, stderr) => {
 				if (err) {
 					reject(err);
 					return;
