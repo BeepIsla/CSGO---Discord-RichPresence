@@ -33,7 +33,7 @@ module.exports = class Helper {
 		return new Promise((resolve, reject) => {
 			this.getURL({
 				method: "POST",
-				uri: "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/",
+				url: "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/",
 				form: {
 					"publishedfileids[0]": fileid,
 					itemcount: 1
@@ -180,5 +180,9 @@ module.exports = class Helper {
 
 	static normalize(str) {
 		return str.replace(/(?![\w\d]+)./gi, "_");
+	}
+
+	static isWindows() {
+		return process.platform === "win32";
 	}
 }
