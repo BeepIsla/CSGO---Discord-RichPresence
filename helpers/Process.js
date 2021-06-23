@@ -10,7 +10,7 @@ module.exports = class Process extends Events {
 		this.running = false;
 		this.curPID = null;
 
-		// Continously loop
+		// Continuously loop
 		this.interval = setInterval(async () => {
 			let PID = await this.isRunning().catch(() => { });
 			if (!PID) {
