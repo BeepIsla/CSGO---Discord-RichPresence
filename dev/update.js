@@ -1,5 +1,3 @@
-const fs = require("fs");
-const path = require("path");
 const Jimp = require("jimp");
 const Helper = require("../helpers/Helper.js");
 const config = require("./config.json");
