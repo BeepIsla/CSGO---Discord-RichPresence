@@ -29,12 +29,12 @@ Display CSGO information as rich presence in discord.
 
 ## Config
 
-- `clientId`: A string representing the client ID of your Discord Application
+- `clientId`: A string representing the client ID of your Discord Application (Use the default value to use mine, I will try to keep it up-to-date. It is the easiest option)
 - `steamWebAPIKey`: A string with your Steam Web API Key from [here](https://steamcommunity.com/dev/apikey)
-- `serverPort`: A number with the port the local server is running on - **Needs to match the port in `gamestate_integration_discord.cfg`**
-- `authToken`: A string with your auth token from `gamestate_integration_discord.cfg`
-- `processCheckDelay`: A number representing the interval in milliseconds between checking if CSGO is running or not
-- `teamSmallImage`: A boolean value whether or not you want to display a team image or a gamemode image
+- `serverPort`: A number with the port the local server is running on - **Needs to match the port in `gamestate_integration_discord.cfg`** (You can just leave this default)
+- `authToken`: A string with your auth token from `gamestate_integration_discord.cfg` (You can just leave this default)
+- `processCheckDelay`: A number representing the interval in milliseconds between checking if CSGO is running or not (You can just leave this default)
+- `teamSmallImage`: A boolean value whether or not you want to display a team image or a gamemode image (You can just leave this default)
 
 ## PM2 - Autostart
 
@@ -55,6 +55,8 @@ If you are in a lobby others can join you via Discord. **This is heavily restric
 **UPDATE**: With the new [Looking to Play](https://blog.counter-strike.net/index.php/2019/05/24154/) lobby update that CSGO has implemented, anyone wanting to join you also now **has to be friends** with the account you are currently playing on otherwise lobby joining will fail due to the way the update works.
 
 ## Custom Discord application
+
+You **do not** have to do this unless you want your own images
 
 1. Create an application [on Discord](https://discordapp.com/developers/applications/me)
 2. Go to `Rich Presence` > `Art Assets` and upload all images you want.
