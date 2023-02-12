@@ -12,7 +12,7 @@
   "license": "AGPL-3.0",
   "dependencies": {
     "discord-rpc": "^3.2.0",
-    "got": "^11.8.2",
+    "got": "^12.5.3",
     "vdf": "0.0.2"
   },
   "devDependencies": {
