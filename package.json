@@ -16,6 +16,6 @@
     "vdf": "0.0.2"
   },
   "devDependencies": {
-    "jimp": "^0.8.5"
+    "jimp": "^0.22.7"
   }
 }
